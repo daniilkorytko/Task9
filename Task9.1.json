@@ -32,11 +32,14 @@
             "metadata": {
                 "description": "The GUID for the runbook job to be started."
             }
+        },
+        "sasToken": {
+            "type": "string"
         }
     },
     "variables": {
         "runbookName": "Shutdown-ARM-VMs-Parallel",
-        "scriptUri": "https://task9runbook.blob.core.windows.net/task9run/Workflow_Stop-AzureVM.ps1?sv=2018-03-28&sr=b&sig=0uQpBatPKsPrssIaBIZjj572DrdZaEugMozihNrtfO4%3D&se=2018-10-19T15%3A12%3A35Z&sp=rwl",
+        "scriptUri": "[parameters('sasToken')]",
         "runbookDescription": "Authenticates to Azure and lists all the Azure V1 VMs",
         "sku": "Free"
     },
