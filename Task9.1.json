@@ -1,6 +1,6 @@
 {
-    "$schema": "http://schemas.microsoft.org/azure/deploymentTemplate?api-version=2015-01-01-preview#",
-    "contentVersion": "1.0",
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
     "parameters": {
         "accountName": {
             "type": "string",
@@ -68,17 +68,12 @@
             "tags": { },
             "properties": {
               "runbookType": "Script",
-              "logProgress": "false",
-              "logVerbose": "false",
+              "logProgress": false,
+              "logVerbose": false,
               "description": "[variables('runbookDescription')]",
               "publishContentLink": {
                 "uri": "[variables('scriptUri')]",
                 "version": "1.0.0.0"
-              },
-              "parameters": {
-                "SubscriptionId": "[SubscriptionId().id]",
-                "TenantID": "[SubscriptionId().tenantid]",
-                "CredentialAssetName": "[parameters('credentialName')]"
               }
             }
           }, 
@@ -111,7 +106,12 @@
             "properties": {
               "runbook": {
                 "name": "[variables('runbookName')]"
-              }
+              },
+              "parameters":{
+                "SubscriptionId":"[subscription().id]",
+                "TenantID":"[subscription().tenantId ]",
+                "CredentialAssetName":"[parameters('credentialName')]"
+             }
             }
           }
         ]
