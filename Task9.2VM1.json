@@ -146,7 +146,7 @@
         },
         "availabilitySetName": {
             "type": "string",
-            "defaultValue": "AvailabilitySet"
+            "defaultValue": "[concat(parameters('virtualMachineName'),'availabilitySet')]"
         },
         "availabilitySetPlatformFaultDomainCount": {
             "type": "int",
