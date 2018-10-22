@@ -1,15 +1,17 @@
 workflow Shutdown-ARM-VMs-Parallel
 {
+
 Param(
     [Parameter(Mandatory = $False)]
-    [string]$SubscriptionId 
+    [string]$SubscriptionId, 
 
     [Parameter(Mandatory = $False)]
-    [string]$TenantID 
+    [string]$TenantID, 
 
     [Parameter(Mandatory = $False)]
     [string]$CredentialAssetName
-	)  
+	
+)  
 
 	"CredentialAssetName: $CredentialAssetName"
 	#Get the credential with the above name from the Automation Asset store
