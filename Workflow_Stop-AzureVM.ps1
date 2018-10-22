@@ -3,13 +3,13 @@ workflow Shutdown-ARM-VMs-Parallel
 
 Param(
     [Parameter(Mandatory = $True)]
-    [string[]]$SubscriptionId, 
+    [string]$SubscriptionId, 
 
     [Parameter(Mandatory = $True)]
-    [string[]]$TenantID, 
+    [string]$TenantID, 
 
     [Parameter(Mandatory = $True)]
-    [string[]]$CredentialAssetName
+    [string]$CredentialAssetName
 	
 )  
 	"CredentialAssetName: $CredentialAssetName"
