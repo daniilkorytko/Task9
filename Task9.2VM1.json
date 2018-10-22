@@ -296,9 +296,9 @@
                 "location":{"value": "[variables('location')]"},
                 "subnetFrontEnd":{"value": "[parameters('subnetFrontEnd')]"},
                 "networkInterfaceName":{"value": "[parameters('networkInterfaceName')]"},
-                "publicIpAddress": {"value": "[reference('linkedTemplatePubIp').outputs.PubIp.value]"},
-                "nsgId": {"value": "[reference('linkedTemplateNSG').outputs.nsgId.value]"},
-                "vnetId": {"value": "[reference('linkedTemplateVnet2').outputs.vnetId.value]"}
+                "publicIpAddress": {"value": "[reference(concat('linkedTemplatePubIp', parameters('NumberVM'))).outputs.PubIp.value]"},
+                "nsgId": {"value": "[reference(concat('linkedTemplateNSG', parameters('NumberVM'))).outputs.nsgId.value]"},
+                "vnetId": {"value": "[reference(concat('linkedTemplateVnet2', parameters('NumberVM'))).outputs.vnetId.value]"}
 
                }
             }
