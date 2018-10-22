@@ -12,7 +12,9 @@ Param(
     [string]$CredentialAssetName
 	
 )  
-
+$TenantID
+$SubscriptionId
+$CredentialAssetName
 	"CredentialAssetName: $CredentialAssetName"
 	#Get the credential with the above name from the Automation Asset store
     $Cred = Get-AutomationPSCredential -Name $CredentialAssetName;
