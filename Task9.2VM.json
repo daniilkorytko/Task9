@@ -406,14 +406,13 @@
             }
          },
          {
-            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2017-05-10",
+            "type": "Microsoft.Resources/deployments",
             "name": "[concat('linkedTemplateDeployVM', parameters('NumberVM'),'/Microsoft.Powershell.DSC')]",
             "dependsOn": [
                 "[concat('linkedTemplateDeployVM', parameters('NumberVM'))]"
             ],
-            "apiVersion": "2015-06-15",
             "location": "[resourceGroup().location]",
-            
             "properties": {
               "mode": "Incremental",
               "templateLink": {
