@@ -412,7 +412,6 @@
             "dependsOn": [
                 "[concat('linkedTemplateDeployVM', parameters('NumberVM'))]"
             ],
-            "location": "[resourceGroup().location]",
             "properties": {
               "mode": "Incremental",
               "templateLink": {
