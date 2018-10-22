@@ -1,0 +1,61 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "networkSecurityGroupRules": {
+            "type": "array"
+        },
+        "virtualMachineName": {
+            "type": "string"
+        },
+        "adminUsername": {
+            "type": "string"
+        },
+        "AdminPassword": {
+            "type": "securestring"
+        },
+        "NumVM": {
+            "type": "int"
+        },
+        "automationAccountKey": {
+            "type": "securestring"
+        },
+        "automationAccountUrl": {
+            "type": "securestring"
+        }
+    },
+    "variables": {
+    },
+
+
+    "resources": [
+        {
+           "apiVersion": "2017-05-10",
+           "name": "[concat('linkedTemplateVM', copyIndex())]",
+           "type": "Microsoft.Resources/deployments",
+
+           
+           "properties": {
+             "mode": "Incremental",
+             "templateLink": {
+                "uri":"https://raw.githubusercontent.com/daniilkorytko/Task9/master/Task9.2VM.json",
+                "contentVersion":"1.0.0.0"
+             },
+             "parameters": {
+                "virtualMachineName":{"value":"[concat(parameters('virtualMachineName'), copyIndex())]" },
+                "networkSecurityGroupRules":{"value": "[parameters('networkSecurityGroupRules')]"},
+                "adminUsername":{"value": "[parameters('adminUsername')]"},
+                "AdminPassword":{"value": "[parameters('AdminPassword')]"},
+                "automationAccountKey":{"value": "[parameters('automationAccountKey')]"},
+                "automationAccountUrl":{"value": "[parameters('automationAccountUrl')]"},
+                "NumberVM":{"value":"[copyIndex()]"}
+
+              }
+           },
+           "copy": {
+            "name": "VMCopy",
+            "count": "[parameters('NumVM')]"
+          }
+        }
+    ]
+}
