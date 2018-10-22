@@ -56,9 +56,6 @@
          {
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "name": "[concat('linkedTemplateDeployVM1', parameters('NumberVM'),'/Microsoft.Powershell.DSC')]",
-            "dependsOn": [
-                "[concat('linkedTemplateDeployVM1', parameters('NumberVM'))]"
-            ],
             "apiVersion": "2015-06-15",
             "location": "[resourceGroup().location]",
             "properties": {
