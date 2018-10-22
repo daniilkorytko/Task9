@@ -134,7 +134,7 @@
         },
         "diagnosticsStorageAccountName": {
             "type": "string",
-            "defaultValue": "[concat('storageaccount', parameters('NumberVM'))]"
+            "defaultValue": "[concat('storageaccount', parameters('NumberVM'),'daniil')]"
         },
         "diagnosticsStorageAccountType": {
             "type": "string",
