@@ -134,7 +134,7 @@
         },
         "diagnosticsStorageAccountName": {
             "type": "string",
-            "defaultValue": "daniilstorageaccount"
+            "defaultValue": "[concat('storageaccount', parameters('NumberVM'))]"
         },
         "diagnosticsStorageAccountType": {
             "type": "string",
@@ -146,7 +146,7 @@
         },
         "availabilitySetName": {
             "type": "string",
-            "defaultValue": "AvailabilitySet"
+            "defaultValue": "[concat(parameters('virtualMachineName'),'availabilitySet')]"
         },
         "availabilitySetPlatformFaultDomainCount": {
             "type": "int",
@@ -162,6 +162,12 @@
         "NumberVM": {
             "type": "int",
             "defaultValue": 1
+        },
+        "automationAccountKey": {
+            "type": "securestring"
+        },
+        "automationAccountUrl": {
+            "type": "securestring"
         }
 
     },
@@ -179,12 +185,19 @@
                     }
                 ]
             
-        }
-        
-        
+        },
 
+        "vm_pref": "vm",
+        "res_count": 2,
+        "configurationMode": "ApplyAndMonitor",
+        "nodeConfigurationName": "",
+        "configurationModeFrequencyMins": 15,
+        "refreshFrequencyMins": 30,
+        "rebootNodeIfNeeded": true,
+        "actionAfterReboot": "ContinueConfiguration",
+        "allowModuleOverwrite": false,
+        "timestamp": "MM/dd/yyyy H:mm:ss tt"
     },
-
 
     "resources": [
         {
@@ -296,9 +309,9 @@
                 "location":{"value": "[variables('location')]"},
                 "subnetFrontEnd":{"value": "[parameters('subnetFrontEnd')]"},
                 "networkInterfaceName":{"value": "[parameters('networkInterfaceName')]"},
-                "publicIpAddress": {"value": "[reference('linkedTemplatePubIp').outputs.PubIp.value]"},
-                "nsgId": {"value": "[reference('linkedTemplateNSG').outputs.nsgId.value]"},
-                "vnetId": {"value": "[reference('linkedTemplateVnet2').outputs.vnetId.value]"}
+                "publicIpAddress": {"value": "[reference(concat('linkedTemplatePubIp', parameters('NumberVM'))).outputs.PubIp.value]"},
+                "nsgId": {"value": "[reference(concat('linkedTemplateNSG', parameters('NumberVM'))).outputs.nsgId.value]"},
+                "vnetId": {"value": "[reference(concat('linkedTemplateVnet2', parameters('NumberVM'))).outputs.vnetId.value]"}
 
                }
             }
@@ -351,7 +364,7 @@
          {
           
             "apiVersion": "2017-05-10",
-            "name": "[concat('linkedTemplateDeployVM1', parameters('NumberVM'))]",
+            "name": "[concat('linkedTemplateDeployVM', parameters('NumberVM'))]",
             "type": "Microsoft.Resources/deployments",
 
             "dependsOn": [
@@ -389,6 +402,27 @@
                        
                     }
                   }
+               }
+            }
+         },
+         {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat('linkedTemplateDeployVM', parameters('NumberVM'),'/Microsoft.Powershell.DSC')]",
+            "dependsOn": [
+                "[concat('linkedTemplateDeployVM1', parameters('NumberVM'))]"
+            ],
+            "apiVersion": "2015-06-15",
+            "location": "[resourceGroup().location]",
+            
+            "properties": {
+              "mode": "Incremental",
+              "templateLink": {
+                 "uri":"https://raw.githubusercontent.com/daniilkorytko/Task9/master/Task9DSCExtension.json",
+                 "contentVersion":"1.0.0.0"
+              },
+              "parameters": {
+                "automationAccountKey":{"value": "[parameters('automationAccountKey')]"},
+                "automationAccountUrl":{"value": "[parameters('automationAccountUrl')]"}
                }
             }
          }
