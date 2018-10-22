@@ -134,7 +134,7 @@
         },
         "diagnosticsStorageAccountName": {
             "type": "string",
-            "defaultValue": "daniilstorageaccount"
+            "defaultValue": "[concat(parameters('virtualMachineName'),'StorageAccount')]"
         },
         "diagnosticsStorageAccountType": {
             "type": "string",
