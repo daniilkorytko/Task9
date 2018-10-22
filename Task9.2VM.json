@@ -158,9 +158,14 @@
         },
         "AdminPassword": {
             "type": "securestring"
+        },
+        "NumberVM": {
+            "type": "int",
+            "defaultValue": 1
         }
 
     },
+
     "variables": {
         "location": "[resourceGroup().location]",
         "secretName": "[concat(parameters('virtualMachineName'),'secret')]",
@@ -184,7 +189,7 @@
     "resources": [
         {
            "apiVersion": "2017-05-10",
-           "name": "linkedTemplateKeyVaunt",
+           "name": "[concat('linkedTemplateKeyVaunt', parameters('NumberVM'))]",
            "type": "Microsoft.Resources/deployments",
           
            
@@ -210,11 +215,11 @@
         },
         {
             "apiVersion": "2017-05-10",
-            "name": "linkedTemplateVnet2",
+            "name": "[concat('linkedTemplateVnet2', parameters('NumberVM'))]",
             "type": "Microsoft.Resources/deployments",
             "dependsOn": [
 
-                "linkedTemplateKeyVaunt"
+                "[concat('linkedTemplateKeyVaunt', parameters('NumberVM'))]"
             ],
             "properties": {
               "mode": "Incremental",
@@ -233,7 +238,7 @@
          },
          {
             "apiVersion": "2017-05-10",
-            "name": "linkedTemplateNSG",
+            "name": "[concat('linkedTemplateNSG', parameters('NumberVM'))]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
               "mode": "Incremental",
@@ -250,11 +255,11 @@
          },
          {
             "apiVersion": "2017-05-10",
-            "name": "linkedTemplatePubIp",
+            "name": "[concat('linkedTemplatePubIp', parameters('NumberVM'))]",
             "type": "Microsoft.Resources/deployments",
             "dependsOn": [
 
-                "linkedTemplateKeyVaunt"
+                "[concat('linkedTemplateKeyVaunt', parameters('NumberVM'))]"
             ],
             "properties": {
               "mode": "Incremental",
@@ -272,13 +277,13 @@
          },
         {
             "apiVersion": "2017-05-10",
-            "name": "linkedTemplateNetInterface",
+            "name": "[concat('linkedTemplateNetInterface', parameters('NumberVM'))]",
             "type": "Microsoft.Resources/deployments",
             "dependsOn": [
-                "linkedTemplateNSG",
-                "linkedTemplateVnet2",
-                "linkedTemplateKeyVaunt",
-                "linkedTemplatePubIp"
+                "[concat('linkedTemplateNSG', parameters('NumberVM'))]",
+                "[concat('linkedTemplateVnet2', parameters('NumberVM'))]",
+                "[concat('linkedTemplateKeyVaunt', parameters('NumberVM'))]",
+                "[concat('linkedTemplatePubIp', parameters('NumberVM'))]"
 
             ],
             "properties": {
@@ -300,11 +305,11 @@
          },
          {
             "apiVersion": "2017-05-10",
-            "name": "linkedTemplateDataDisk",
+            "name": "[concat('linkedTemplateDataDisk', parameters('NumberVM'))]",
             "type": "Microsoft.Resources/deployments",
             "dependsOn": [
 
-                "linkedTemplateKeyVaunt"
+                "[concat('linkedTemplateKeyVaunt', parameters('NumberVM'))]"
             ],
             "properties": {
               "mode": "Incremental",
@@ -320,11 +325,11 @@
          },
          {
             "apiVersion": "2017-05-10",
-            "name": "linkedTemplateDataSAccAval",
+            "name": "[concat('linkedTemplateDataSAccAval', parameters('NumberVM'))]",
             "type": "Microsoft.Resources/deployments",
             "dependsOn": [
 
-                "linkedTemplateKeyVaunt"
+                "[concat('linkedTemplateKeyVaunt', parameters('NumberVM'))]"
             ],
             "properties": {
               "mode": "Incremental",
@@ -346,14 +351,14 @@
          {
           
             "apiVersion": "2017-05-10",
-            "name": "linkedTemplateDeployVM1",
+            "name": "[concat('linkedTemplateDeployVM1', parameters('NumberVM'))]",
             "type": "Microsoft.Resources/deployments",
 
             "dependsOn": [
-                "linkedTemplateKeyVaunt",
-                "linkedTemplateDataDisk",
-                "linkedTemplateNetInterface",
-                "linkedTemplateDataSAccAval"
+                "[concat('linkedTemplateKeyVaunt', parameters('NumberVM'))]",
+                "[concat('linkedTemplateDataDisk', parameters('NumberVM'))]",
+                "[concat('linkedTemplateNetInterface', parameters('NumberVM'))]",
+                "[concat('linkedTemplateDataSAccAval', parameters('NumberVM'))]"
                
             ],
             
@@ -379,7 +384,7 @@
                 "adminPassword": {
                     "reference":  {
 
-                       "keyVault":  {"id": "[reference('linkedTemplateKeyVaunt').outputs.KeyVaunts.value]"},
+                       "keyVault":  {"id": "[reference(concat('linkedTemplateKeyVaunt', parameters('NumberVM'))).outputs.KeyVaunts.value]"},
                        "secretName": "[variables('secretName')]"
                        
                     }
