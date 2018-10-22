@@ -14,7 +14,7 @@
                 "standard",
                 "Premium",
                 "premium"
-            ],    
+            ],
             "metadata": {
                 "description": "SKU for the vault"
             }
@@ -409,9 +409,11 @@
             "apiVersion": "2017-05-10",
             "type": "Microsoft.Resources/deployments",
             "name": "[concat('linkedTemplateExtension', parameters('NumberVM'))]",
+            
             "dependsOn": [
                 "[concat('linkedTemplateDeployVM', parameters('NumberVM'))]"
             ],
+            
             "properties": {
               "mode": "Incremental",
               "templateLink": {
@@ -419,6 +421,7 @@
                  "contentVersion":"1.0.0.0"
               },
               "parameters": {
+                "virtualMachineName":{"value": "[parameters('virtualMachineName')]"},
                 "automationAccountKey":{"value": "[parameters('automationAccountKey')]"},
                 "automationAccountUrl":{"value": "[parameters('automationAccountUrl')]"}
                }
