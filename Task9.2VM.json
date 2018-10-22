@@ -14,7 +14,7 @@
                 "standard",
                 "Premium",
                 "premium"
-            ],
+            ],    
             "metadata": {
                 "description": "SKU for the vault"
             }
